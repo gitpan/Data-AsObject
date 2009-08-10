@@ -1,0 +1,11 @@
+Build.PL
+Changes
+MANIFEST
+README
+lib/Data/AsObject.pm
+lib/Data/AsObject/Hash.pm
+lib/Data/AsObject/Array.pm
+t/00-load.t
+t/01-basic.t
+Makefile.PL
+META.yml
