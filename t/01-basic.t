@@ -7,7 +7,6 @@ use Test::Deep;
 
 use lib qw(../lib);
 use Data::AsObject qw(dao);
-use Data::Dumper qw(Dumper);
 
 my $data = {
 	test => 1,

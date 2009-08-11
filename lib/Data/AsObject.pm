@@ -10,7 +10,7 @@ use Data::AsObject::Array;
 use base 'Exporter';
 our @EXPORT = qw(dao);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our $__check_type = sub {
 	my $data = shift;
@@ -36,13 +36,12 @@ sub dao {
 	my @result;
 
 	foreach my $data (@args) {
-
+		
 		my $type = reftype($data);
 		my $dao;
 	
 		if ($type eq "ARRAY") {
-			$dao = bless $data, "Data::AsObject::Array"
-			push @result, $dao;
+			$dao = bless $data, "Data::AsObject::Array";
 		} elsif ($type eq "HASH") {
 			$dao = bless $data, "Data::AsObject::Hash";
 		} else {
@@ -52,7 +51,7 @@ sub dao {
 		push @result, $dao;
 	}
 
-	return @result;
+	return wantarray ? @result : $result[0];
 
 }
 
@@ -191,6 +190,10 @@ If C<$data> isa C<Data::AsObject::Hash>:
 =item can
 
 Attempts to call C<$data-E<gt>can("some_method_name")> will always return C<undef>, regardless of whether a C<$data-E<gt>{"some_method_name"}> hash key exists or not.
+
+=item VERSION
+
+Calling C<$data-E<gt>VERSION> will attempt to return the value of a hash element with a key "VERSION". Use C<Data::AsObject-E<gt>VERSION> instead.
 
 =item others special methods
 
