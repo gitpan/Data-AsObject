@@ -1,6 +1,6 @@
 ---
 name: Data-AsObject
-version: 0.03
+version: 0.04
 author:
   - 'Petar Shangov <pshangov@yahoo.com>'
 abstract: Easy OO access to complex perl data structures
@@ -14,7 +14,7 @@ configure_requires:
 provides:
   Data::AsObject:
     file: lib/Data/AsObject.pm
-    version: 0.03
+    version: 0.04
   Data::AsObject::Array:
     file: lib/Data/AsObject/Array.pm
   Data::AsObject::Hash:

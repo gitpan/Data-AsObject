@@ -1,11 +1,8 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
-
+use Test::More tests => 12;
 use Test::Deep;
-
-use lib qw(../lib);
 use Data::AsObject qw(dao);
 
 my $data = {
@@ -17,6 +14,8 @@ my $data = {
 		{ town => 'sofia', district => 'druzhba', },
 		{ town => 'sofia', district => 'bakston', },
 	],
+	'xml:thingy' => 2,
+	'meaning-of-life' => 42,
 };
 
 ### INITIALIZATION ###
@@ -54,3 +53,8 @@ cmp_deeply( \@districts, noclass([qw(center druzhba bakston)]), "Test list conte
 
 $dao->{newcomer} = "taralezh";
 is( $dao->newcomer, "taralezh", "Test assigning" );
+
+### COLONS AND DASHES IN HASH KEY ###
+
+is( $dao->xml_thingy,       2,  "Test columns in hash key" );
+is( $dao->meaning_of_life,  42, "Test dashes in hash key"  );
