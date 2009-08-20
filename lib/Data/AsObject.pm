@@ -10,7 +10,7 @@ use Data::AsObject::Array;
 use base 'Exporter';
 our @EXPORT = qw(dao);
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 our $__check_type = sub {
 	my $data = shift;
@@ -63,7 +63,7 @@ Data::AsObject - Easy OO access to complex perl data structures
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =head1 SYNOPSIS
 
@@ -103,6 +103,10 @@ Since C<Data::AsObject> does not preform any autovivification, it protects you f
 =item Easy access to hash keys with non-standard symbols
 
 If your hashes contain a lot of keys with dashes or colons, as is often the case with keys representing xml element names, C<Data::AsObject> can autmatically access such keys by substituting underscores for the non-standard symbols.
+
+=item Easy dereferencing of arrayref
+
+If you have a lot of arrayrefs in your data structure that often need to be traversed, e.g. with C<grep>, C<map> or C<foreach>, C<Data::AsObject>'s automatic dereferencing syntax may be very convenient.
 
 =back
 

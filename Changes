@@ -12,3 +12,7 @@ Revision history for Data-Object
 0.04	14 August 2009
 		* added build requirement for Test::Deep
 		* support for resolving hash keys with colons and dashes
+
+0.05	20 August 2009
+		* fixes to build script
+		* additions to documentation
