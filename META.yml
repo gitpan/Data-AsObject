@@ -1,26 +1,24 @@
 ---
-name: Data-AsObject
-version: 0.05
+abstract: 'Easy OO access to complex perl data structures'
 author:
   - 'Peter Shangov <pshangov@yahoo.com>'
-abstract: Easy OO access to complex perl data structures
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
 build_requires:
   Test::Deep: 0
+  Test::Exception: 0
   Test::More: 0
+  Test::Warn: 0
 configure_requires:
-  Module::Build: 0.340201
-provides:
-  Data::AsObject:
-    file: lib/Data/AsObject.pm
-    version: 0.05
-  Data::AsObject::Array:
-    file: lib/Data/AsObject/Array.pm
-  Data::AsObject::Hash:
-    file: lib/Data/AsObject/Hash.pm
-generated_by: Module::Build version 0.340201
+  ExtUtils::MakeMaker: 6.31
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 3.101410, CPAN::Meta::Converter version 2.101410'
+license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+name: Data-AsObject
+requires:
+  Carp: 0
+  Scalar::Util: 0
+  Sub::Exporter: 0
+  namespace::clean: 0
+version: 0.06

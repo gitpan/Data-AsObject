@@ -1,15 +1,22 @@
 package Data::AsObject::Array;
+BEGIN {
+  $Data::AsObject::Array::VERSION = '0.06';
+}
 
 use strict;
 use warnings;
-use Carp;
-use Scalar::Util qw(reftype blessed);
-use Data::AsObject;
+
+use Carp qw(carp croak);
+use Data::AsObject qw();
+use namespace::clean -except => [qw/get/];
 
 
 sub get {
 	my $self = shift;
 	my $index = shift;
+
+	ref($self) =~ /^.*::(\w+)$/;
+	my $mode = $1;
 
 	# user wants to fetch a value
 	if (defined $index) {
@@ -18,16 +25,25 @@ sub get {
 			my $data = $self->[$index];
 			
 			if ( $Data::AsObject::__check_type->($data) eq "ARRAY" ) {
-				bless $data, "Data::AsObject::Array";
-				return wantarray ? $data->all : $data;
+				return bless $data, "Data::AsObject::Array::$mode";
 			} elsif ( $Data::AsObject::__check_type->($data) eq "HASH" ) {
-				return wantarray ? %{$data} : bless $data, "Data::AsObject::Hash";
+				return bless $data, "Data::AsObject::Hash::$mode";
 			} else {
 				return $data;
 			}
 		# the value does not exist
 		} else {
-			carp "Attempting to access non-existing array index [$index]!";
+			my $msg = "Attempting to access non-existing array index [$index]!";
+			
+			if ($mode eq 'Strict')
+			{
+				carp $msg;
+			}
+			elsif ($mode eq 'Loose')
+			{
+				croak $msg;
+			}
+
 			return;
 		}
 	} else {
@@ -35,10 +51,55 @@ sub get {
 	}
 }
 
-sub all {
+sub list
+{
 	my $self = shift;
-	
-	return map { $Data::AsObject::__check_type->($_) ? Data::AsObject::dao($_) : $_} @{$self};
+	croak "List does not accept arguments" if @_;
+
+	my $mode;
+	$mode = 'strict' if $self->isa('Data::AsObject::Array::Strict');
+	$mode = 'loose'  if $self->isa('Data::AsObject::Array::Loose');
+	$mode = 'silent' if $self->isa('Data::AsObject::Array::Silent');
+	carp "Unknown class used as Data::AsObject::Array" unless $mode;
+
+	my @array;
+	foreach  my $value (@$self) 
+	{
+		$Data::AsObject::__check_type->($value) 
+			? push @array, Data::AsObject::__bless_dao($value, $mode) 
+			: push @array, $value;
+	}
+	return @array;
 }
 
+package Data::AsObject::Array::Strict;
+BEGIN {
+  $Data::AsObject::Array::Strict::VERSION = '0.06';
+}
+use base 'Data::AsObject::Array';
+
+package Data::AsObject::Array::Loose;
+BEGIN {
+  $Data::AsObject::Array::Loose::VERSION = '0.06';
+}
+use base 'Data::AsObject::Array';
+
+package Data::AsObject::Array::Silent;
+BEGIN {
+  $Data::AsObject::Array::Silent::VERSION = '0.06';
+}
+use base 'Data::AsObject::Array';
+
 1;
+
+=head1 NAME
+
+Data::AsObject::Array - Base class for Data::AsObject arrays
+
+=head1 VERSION
+
+version 0.06
+
+=head1 SYNOPSIS
+
+See L<Data::AsObject> for more information.
